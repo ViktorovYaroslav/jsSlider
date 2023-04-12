@@ -1,0 +1,72 @@
+@import '_reset.scss';
+@import '_var.scss';
+@import '_page-set.scss';
+@import '_fonts.scss';
+@import '_common.scss';
+
+.main {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.slider {
+   padding: 20px 0;
+   display: flex;
+   justify-content: center;
+   position: relative;
+
+   min-width: 300px;
+   width: 70%;
+
+
+
+   &__controller {
+      position: absolute;
+      z-index: 1;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+
+      button {
+         position: absolute;
+         width: 48px;
+         height: 48px;
+      }
+
+      .prev {
+         left: -10%;
+
+         img {
+            transform: rotate(180deg);
+         }
+      }
+
+      .next {
+         right: -10%;
+      }
+   }
+
+   &__wrapper {
+      overflow: hidden;
+      width: 100%;
+   }
+
+   &__body {
+      position: relative;
+      left: 0;
+      display: flex;
+      align-items: center;
+      transition: .3s all ease-out;
+   }
+
+   &__item {
+      flex: 1 0 100%;
+   }
+   &__image {
+      padding-bottom: 40%;
+   }
+}
+
+
+@import '_media.scss';

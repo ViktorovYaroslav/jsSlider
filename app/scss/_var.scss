@@ -1,0 +1,8 @@
+:root{
+   --index: calc(1vw + 1vh);
+
+   --color-header: #f4efec;
+   --color-text: #cbc6c3;
+
+   --gallery-gap: calc(var(--index) * 10);
+}
