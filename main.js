@@ -38,7 +38,7 @@ const changeSlide = (e) => {
          }
       }
 
-      sliderBody.style = `left: -${sliderBodyPosition}px`;
+      sliderBody.style = `transform:  translateX(-${sliderBodyPosition}px)`;
    }
 }
 
