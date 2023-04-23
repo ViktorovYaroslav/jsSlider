@@ -26,8 +26,15 @@
       flex: 1;
    }
 
+   &__btns{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+   }
+
    &__likes{
-      margin: 0 auto;
+
       display: flex;
       gap: 10px;
 
@@ -53,28 +60,19 @@
    }
 
    &__controller {
-      position: absolute;
-      z-index: 1;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
 
       button {
-         position: absolute;
          width: 48px;
          height: 48px;
       }
 
       .prev {
-         left: -10%;
-
          img {
             transform: rotate(180deg);
          }
-      }
-
-      .next {
-         right: -10%;
       }
    }
 

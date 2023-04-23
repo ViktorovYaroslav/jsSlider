@@ -73,7 +73,10 @@ function slider() {
    updateSliderLikesSection(likesCounter, dislikesCounter, sliderBody.querySelector('.slider__item._active'));
 
    // change likes/dislikes
-   sliderLikes.addEventListener('click',(e) => rateSlide(e, sliderBody));
+   sliderLikes.addEventListener('click',(e) => { 
+      rateSlide(e, sliderBody) 
+   });
 }
 
 slider();
+
