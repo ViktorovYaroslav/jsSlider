@@ -1,24 +1,26 @@
 // import styles
 import '../scss/style.scss';
 
+// import state
+import { sliderState } from './sliderState';
+
 // import helpers
 import { updateSliderLikesSection } from './updateSliderLikesSection';
 import { rateSlide } from './rateSlide';
+import { updateUIFirstRender } from './updateUIFirstRender';
+
 
 function slider() {
    // get elements
-   const slider     = document.querySelector('.slider');
+   const slider = document.querySelector('.slider');
    const sliderBody = slider.querySelector('.slider__body');
+   const sliderItems = sliderBody.querySelectorAll('.slider__item');
 
-   const sliderLikes     = slider.querySelector('.slider__likes');
-   const likesCounter    = slider.querySelector('.likes .counter');
+   const sliderLikes = slider.querySelector('.slider__likes');
+   const likesCounter = slider.querySelector('.likes .counter');
    const dislikesCounter = slider.querySelector('.dislikes .counter');
-   
-   // imitate states
-   let sliderBodyPosition = 0;
 
-   let currentActiveSlide  = 0;
-   let previousActiveSlide = currentActiveSlide;
+   updateUIFirstRender(sliderBody, sliderItems);
 
    // changeSlide
    const changeSlide = (e) => {
@@ -29,52 +31,53 @@ function slider() {
       if (closestBtn) {
          const closestBtnAction = closestBtn.dataset.action;
 
-         const sliderItems     = sliderBody.querySelectorAll('.slider__item');
          const sliderItemWidth = sliderItems[0].clientWidth;
          const sliderBodyWidth = sliderItems.length * sliderItemWidth - sliderItemWidth;
 
 
          if (closestBtnAction === 'prev') {
-            if (sliderBodyPosition !== 0) {
-               sliderBodyPosition  -= sliderItemWidth;
-               previousActiveSlide = currentActiveSlide
-               currentActiveSlide  -= 1;
+            if (sliderState.sliderBodyPosition !== 0) {
+               sliderState.sliderBodyPosition -= sliderItemWidth;
+               sliderState.previousActiveSlide = sliderState.currentActiveSlide
+               sliderState.currentActiveSlide -= 1;
             } else {
-               sliderBodyPosition  = sliderBodyWidth;
-               previousActiveSlide = currentActiveSlide
-               currentActiveSlide  = sliderItems.length - 1;
+               sliderState.sliderBodyPosition = sliderBodyWidth;
+               sliderState.previousActiveSlide = sliderState.currentActiveSlide
+               sliderState.currentActiveSlide = sliderItems.length - 1;
             }
          }
 
          if (closestBtnAction === 'next') {
-            if (sliderBodyWidth > sliderBodyPosition) {
-               sliderBodyPosition  += sliderItemWidth;
-               previousActiveSlide = currentActiveSlide
-               currentActiveSlide  += 1;
+            if (sliderBodyWidth > sliderState.sliderBodyPosition) {
+               sliderState.sliderBodyPosition += sliderItemWidth;
+               sliderState.previousActiveSlide = sliderState.currentActiveSlide
+               sliderState.currentActiveSlide += 1;
             } else {
-               sliderBodyPosition  = 0;
-               previousActiveSlide = currentActiveSlide
-               currentActiveSlide  = 0;
+               sliderState.sliderBodyPosition = 0;
+               sliderState.previousActiveSlide = sliderState.currentActiveSlide
+               sliderState.currentActiveSlide = 0;
             }
          }
 
-         sliderItems[previousActiveSlide].classList.remove('_active');
-         sliderItems[currentActiveSlide].classList.add('_active');
+         sliderItems[sliderState.previousActiveSlide].classList.remove('_active');
+         sliderItems[sliderState.currentActiveSlide].classList.add('_active');
 
-         updateSliderLikesSection(likesCounter, dislikesCounter, sliderItems[currentActiveSlide]);
+         updateSliderLikesSection(likesCounter, dislikesCounter, sliderItems[sliderState.currentActiveSlide]);
 
-         sliderBody.style = `transform:  translateX(-${sliderBodyPosition}px)`;
+         sliderBody.style = `transform:  translateX(-${sliderState.sliderBodyPosition}px)`;
+
+         localStorage.jsSlider = JSON.stringify(sliderState);
       }
    }
-   
+   //localStorage.clear()
    slider.addEventListener('click', changeSlide);
 
    // update counters on first render
    updateSliderLikesSection(likesCounter, dislikesCounter, sliderBody.querySelector('.slider__item._active'));
 
    // change likes/dislikes
-   sliderLikes.addEventListener('click',(e) => { 
-      rateSlide(e, sliderBody) 
+   sliderLikes.addEventListener('click', (e) => {
+      rateSlide(e, sliderBody)
    });
 }
 

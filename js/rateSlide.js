@@ -1,3 +1,5 @@
+import { sliderState } from "./sliderState";
+
 /**
  * rateSlide is updating the state of likes/dislikes in active slide element
  * 
@@ -20,6 +22,15 @@ export const rateSlide = (e, sliderBody) => {
 
       if (closestBtnAction === 'dislike'){
          activeSlide.dataset.dislikes = 1 + +activeSlide.dataset.dislikes;
+      }
+
+      // update likes state
+      sliderState.likes = {
+         ...sliderState.likes,
+         [sliderState.currentActiveSlide]: {
+            likes: activeSlide.dataset.likes,
+            dislikes: activeSlide.dataset.dislikes,
+         },
       }
    }
 }
