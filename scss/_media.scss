@@ -1,5 +1,6 @@
 @media (max-width: 780px) {
    .slider {
+      gap: 20px;
       &__controller {
          top: 100%;
    
@@ -13,6 +14,10 @@
       }
       &__btns{
          flex-direction: column;
+         .dots{
+            order: -1;
+            margin-bottom: 20px;
+         }
       }
    
       &__likes{
