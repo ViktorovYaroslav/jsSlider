@@ -1,3 +1,4 @@
+@import "bootstrap/scss/bootstrap";
 @import '_reset.scss';
 @import '_var.scss';
 @import '_page-set.scss';
@@ -122,6 +123,14 @@
    &__image {
       padding-bottom: 40%;
 
+      .loader__wrapper{
+         position: absolute;
+         z-index: 9;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         
+      }
       figcaption {
          position: absolute;
          padding: 8px 16px;

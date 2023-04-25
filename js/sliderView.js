@@ -3,6 +3,7 @@ import { SliderController } from "./sliderController";
 class View {
    constructor() {
       this.elements = {
+         sliderLoaderElement: document.querySelector('#slider-loader-js'),
          imageElement: document.querySelector('#slider-image-js'),
          descriptionElement: document.querySelector('#slider-description-js'),
 
@@ -75,15 +76,15 @@ class View {
          SliderController.setDataToLocalstorage();
       })
 
-      this.elements.likeBtnElement.addEventListener('click', () => {
+      this.elements.likeBtnElement.addEventListener('click', (e) => {
          SliderController.increaseCurrentSlideLikes();
-         this.render();
+         this.render(e.target);
          SliderController.setDataToLocalstorage();
       })
 
-      this.elements.dislikeBtnElement.addEventListener('click', () => {
+      this.elements.dislikeBtnElement.addEventListener('click', (e) => {
          SliderController.increaseCurrentSlideDislikes();
-         this.render();
+         this.render(e.target);
          SliderController.setDataToLocalstorage();
       })
 
@@ -104,6 +105,7 @@ class View {
    /**
     * animate slider changes
     * 
+    * @this {View} view class
     * @returns {void}
     */
    animateSliderChanging () {
@@ -123,18 +125,40 @@ class View {
       }
    }
    /**
+    * Displays the loaded image or loader
+    * 
+    * @this {View} view class
+    * @returns {void}
+    */
+   showImage () {
+      const currentSlide = SliderController.getCurrentSlide();
+      
+      this.elements.imageElement.src = '';
+      this.elements.sliderLoaderElement.removeAttribute('hidden');
+      this.elements.imageElement.src = currentSlide.imageSrc;
+      this.elements.imageElement.alt = currentSlide.imageAlt;
+
+      this.elements.imageElement.onload = () => { 
+         this.elements.sliderLoaderElement.setAttribute('hidden', 'true');
+      }
+   }
+   /**
     * updates UI
     * 
     * @this {View} view class
     * @returns {void}
     */
-   render() {
+   render(target) {
       const currentSlide = SliderController.getCurrentSlide();
-      
-      
-      this.elements.imageElement.src = currentSlide.imageSrc;
-      this.elements.imageElement.alt = currentSlide.imageAlt;
-      
+
+      if (
+         (target?.closest('.btn') !== this.elements.likeBtnElement) 
+         && 
+         (target?.closest('.btn') !== this.elements.dislikeBtnElement)
+         ) {
+         this.showImage();
+      }
+ 
       this.elements.descriptionElement.innerHTML = `<span>${currentSlide.imageDescription}</span>`;
 
       this.elements.likesCounterElement.innerHTML = currentSlide.likes;
